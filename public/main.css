@@ -1,0 +1,197 @@
+.input-form {
+  margin-bottom: 20px;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+}
+
+.input-form label {
+  margin-right: 5px;
+}
+
+.input-form input[type="text"],
+.input-form select {
+  padding: 5px;
+  width: 180px;
+  margin-right: 10px; /* Add margin-right for spacing between input and text */
+}
+
+.input-form button {
+  margin-left: 10px;
+}
+
+.update-button {
+  background-color: #1DA1F2;
+  color: #fff;
+  border: none;
+  padding: 8px 16px;
+  font-size: 14px;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+/* Add these styles to make the table beautiful and colorful */
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+th, td {
+  border: 1px solid #ccc;
+  padding: 8px;
+  text-align: center;
+}
+
+th {
+  background-color: #f2f2f2;
+}
+
+td:hover {
+  background-color: #f9f9f9;
+  cursor: pointer;
+}
+
+.selected {
+  background-color: #c8e6c9;
+}
+
+/* New styles for table colors */
+table {
+  background-color: #fff;
+}
+
+th {
+  background-color: #1DA1F2;
+  color: #fff;
+}
+
+td {
+  background-color: #f2f2f2;
+}
+
+td:hover {
+  background-color: #e0e0e0;
+}
+
+.selected {
+  background-color: #c8e6c9;
+}
+
+/* Additional styles to enhance the appearance */
+body {
+  font-family: 'Roboto', sans-serif;
+  margin: 0;
+  padding: 0;
+}
+
+h1{
+  text-align: center;
+  padding: 0px;
+  margin: 0; /* Add margin: 0; to remove any default margin */
+}
+
+h2 {
+  text-align: center;
+  padding: 20px;
+ }
+.menu-bar {
+  background-color: #1DA1F2;
+  display: block;
+  justify-content: flex-start;
+  align-items: center;
+  padding: 10px;
+  color: #fff;
+}
+
+.menu-bar a {
+  color: #fff;
+  text-decoration: none;
+  margin: 0 10px;
+  padding: 5px;
+}
+
+.menu-bar a:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+  border-radius: 4px;
+}
+
+.landing-section {
+  text-align: left;
+  padding-left: 25px;
+}
+
+.input-form {
+  margin-bottom: 20px;
+  text-align: left;
+}
+
+.input-form input[type="text"],
+.input-form select {
+  padding: 5px;
+  width: 200px;
+}
+
+.tabs {
+  overflow: hidden;
+  background-color: #f2f2f2;
+  display: flex;
+  padding: auto;
+  justify-content: center; /* Center the tabs horizontally */
+  align-items: center; /* Center the tabs vertically */
+}
+
+.tabs button {
+      font-size: 16px;
+      padding: 10px 20px;
+      margin: 0 10px;
+      border: none;
+      cursor: pointer;
+      outline: none;
+      transition: background-color 0.3s;
+      border-radius: 5px;
+      display: inline-block;
+      text-align: center;
+      font-weight: bold;
+    }
+
+.tabs button:hover {
+  background-color: #ddd;
+}
+
+.tabs button.active {
+  background-color: #ccc;
+}
+.tabs button#lab-tab-button {
+      background-color: #ff6384;
+      outline-color: #ff6384;
+    }
+  
+    .tabs button#analysis-tab-button {
+      background-color: #36a2eb;
+      outline-color: #36a2eb;
+    }
+  
+    .tabs button#curation-tab-button {
+      background-color: #ffcd56;
+      outline-color: #ffcd56;
+    }
+
+    table {
+  border-collapse: collapse;
+  width: 100%;
+}
+
+table th {
+  background-color: #000000;
+  color: #ffffff;
+  padding-left: 20px;
+  padding-right: 20px;
+}
+
+table td,
+table th {
+  padding: 20px;
+  text-align: center;
+  border-bottom: 1px solid #ddd;
+}
