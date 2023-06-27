@@ -9,8 +9,15 @@
   <div class="menu-bar">
     <div>
       <a href="#">Home</a>
-      <a href="#">View</a>
-      <a href="#">Update</a>
+      <div class="dropdown">
+        <a href="#" class="dropbtn">View</a>
+        <div class="dropdown-content">
+          <a href="#lab-tab" onclick="openTab(event, 'lab-tab')">Lab Table</a>
+          <a href="#analysis-tab" onclick="openTab(event, 'analysis-tab')">Data Analysis Table</a>
+          <a href="#curation-tab" onclick="openTab(event, 'curation-tab')">Data Curation Table</a>
+        </div>
+      </div>
+      <a href="#" onclick="location.reload()">Update</a>
       <h1>Research Group Task Tracker</h1>
     </div>
   </div>
@@ -73,7 +80,7 @@
         </tr>
       </thead>
       <tbody id="lab-table">
-        <!-- Placeholder rows for lab work, dynamically populated by JavaScript -->
+
       </tbody>
     </table>
   </div>
@@ -92,7 +99,7 @@
         </tr>
       </thead>
       <tbody id="analysis-table">
-        <!-- Placeholder rows for data analysis, dynamically populated by JavaScript -->
+
       </tbody>
     </table>
   </div>
@@ -111,25 +118,24 @@
         </tr>
       </thead>
       <tbody id="curation-table">
-        <!-- Placeholder rows for data curation, dynamically populated by JavaScript -->
+  
       </tbody>
     </table>
   </div>
 
   <script>
     function openTab(evt, tabName) {
-      // Tab switching logic
+
     }
   
     function updateSchedule() {
-      // Get form input values
+
       const week = document.getElementById('week').value;
       const order = document.getElementById('order').value;
       const project = document.getElementById('project').value;
       const task = document.getElementById('task').value;
       const responsible = document.getElementById('responsible').value;
   
-      // Send the task data to the server
       fetch('/api/tasks', {
         method: 'POST',
         headers: {
@@ -139,19 +145,18 @@
       })
       .then(response => {
         if (response.ok) {
-          // Task saved successfully, update the table dynamically
+
           return response.json();
         } else {
           throw new Error('Failed to save the task');
         }
       })
       .then(task => {
-        // Update the table with the new task dynamically
+
         const { week, order, project, task: taskName, responsible } = task;
         const tableId = `${taskName}-table`;
         const table = document.getElementById(tableId);
         
-        // Create a new row and insert cells with task details
         const row = table.insertRow();
         const weekCell = row.insertCell(0);
         const dateCell = row.insertCell(1);
@@ -171,29 +176,23 @@
       .catch(error => {
         console.error(error);
       });
+      location.reload();
     }
   
-    // Function to convert week number to date range
+    
     function convertWeekToDateRange(weekNumber) {
   var date = new Date();
   var offset = date.getTimezoneOffset();
 
-  // Set the date to January 1st of the current year
   date.setMonth(0);
   date.setDate(1);
 
-  // ISO: week 1 is the one with the year's first Thursday
-  // Nearest Thursday: current date + 4 - current day number
-  // Sunday is converted from 0 to 7
   date.setDate(date.getDate() + 4 - (date.getDay() || 7));
 
-  // Subtract one day from the date to start from January 1st
   date.setDate(date.getDate() + 3);
 
-  // 7 days * (week - 1)
   date.setTime(date.getTime() + 7 * 24 * 60 * 60 * 1000 * (weekNumber - 1));
 
-  // Daylight savings fix
   date.setTime(date.getTime() + (date.getTimezoneOffset() - offset) * 60 * 1000);
 
   const endDate = new Date(date);
@@ -206,7 +205,7 @@
   return `${startMonth} ${startDay} - ${endMonth} ${endDay}`;
 }
   
-    // Fetch tasks from the server and populate the tables
+   
     fetch('/api/tasks')
       .then(response => response.json())
       .then(tasks => {
@@ -215,7 +214,7 @@
           const tableId = `${taskName}-table`;
           const table = document.getElementById(tableId);
           
-          // Create a new row and insert cells with task details
+        
           const row = table.insertRow();
           const weekCell = row.insertCell(0);
           const dateCell = row.insertCell(1);
@@ -250,6 +249,95 @@
       document.getElementById(tabName).style.display = "block";
       evt.currentTarget.classList.add("active");
     }
+
+    
+//      function paginateTable(tableId, rowsPerPage) {
+//     const table = document.getElementById(tableId);
+//     const rows = table.getElementsByTagName('tr');
+//     const pageCount = Math.ceil((rows.length - 1) / rowsPerPage);
+
+//     let currentPage = 1;
+//     showPage(currentPage);
+
+//     function showPage(page) {
+//       const startIndex = (page - 1) * rowsPerPage + 1;
+//       const endIndex = Math.min(startIndex + rowsPerPage - 1, rows.length - 1);
+
+//       for (let i = 1; i < rows.length; i++) {
+//         if (i >= startIndex && i <= endIndex) {
+//           rows[i].style.display = 'table-row';
+//         } else {
+//           rows[i].style.display = 'none';
+//         }
+//       }
+//     }
+
+//     function goToPreviousPage() {
+//       if (currentPage > 1) {
+//         currentPage--;
+//         showPage(currentPage);
+//       }
+//     }
+
+//     function goToNextPage() {
+//       if (currentPage < pageCount) {
+//         currentPage++;
+//         showPage(currentPage);
+//       }
+//     }
+
+//     const paginationContainer = document.createElement('div');
+//     paginationContainer.classList.add('pagination');
+
+//     const prevButton = document.createElement('button');
+//     prevButton.textContent = 'Previous';
+//     prevButton.addEventListener('click', goToPreviousPage);
+//     paginationContainer.appendChild(prevButton);
+
+//     for (let i = 1; i <= pageCount; i++) {
+//       const pageButton = document.createElement('button');
+//       pageButton.textContent = i;
+//       pageButton.addEventListener('click', () => {
+//         currentPage = i;
+//         showPage(currentPage);
+//       });
+//       paginationContainer.appendChild(pageButton);
+//     }
+
+//     const nextButton = document.createElement('button');
+//     nextButton.textContent = 'Next';
+//     nextButton.addEventListener('click', goToNextPage);
+//     paginationContainer.appendChild(nextButton);
+
+//     const tableContainer = table.parentNode;
+//     tableContainer.insertBefore(paginationContainer, table.nextSibling);
+//   }
+
+//   function initializePagination() {
+//     paginateTable('lab-table', 10);
+//     paginateTable('analysis-table', 10);
+//     paginateTable('curation-table', 10);
+//   }
+
+//   function openTab(evt, tabName) {
+//     const tabContent = document.getElementsByClassName('tab-content');
+//     for (let i = 0; i < tabContent.length; i++) {
+//       tabContent[i].style.display = 'none';
+//     }
+
+//     const tabButtons = document.getElementsByClassName('tab-button');
+//     for (let i = 0; i < tabButtons.length; i++) {
+//       tabButtons[i].classList.remove('active');
+//     }
+
+//     document.getElementById(tabName).style.display = 'block';
+//     evt.currentTarget.classList.add('active');
+
+//     initializePagination();
+//   }
+
+//   document.addEventListener('DOMContentLoaded', initializePagination);
+// </script>
   </script>
   
 </body>
