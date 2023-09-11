@@ -1,9 +1,10 @@
 import express from "express";
 import cors from "cors";
 import bodyParser from 'body-parser';
+import { parse } from 'date-fns';
 
 import db from "./db/conn_db.js";
-import { ObjectId } from "mongodb";
+import { ObjectId, Timestamp } from "mongodb";
 
 
 const PORT = process.env.PORT || 5050;
@@ -23,8 +24,8 @@ app.get("/", async (req, res) => {
 
 const dateConversionStage = {
 	$addFields: {
-		createdOn: { $dateToString: { date: '$createdOn', format: '%Y-%m-%d' }},
-		updatedOn: { $dateToString: { date: '$updatedOn', format: '%Y-%m-%d' } }
+		created_on: { $dateToString: { date: '$created_on', format: '%Y-%m-%d' }},
+		updated_on: { $dateToString: { date: '$updated_on', format: '%Y-%m-%d' }}
 	}
  };
 
@@ -32,12 +33,6 @@ app.get("/userList", async (req, res) => {
 	console.log(Date.now())
 	let collection = await db.collection("users_t");
 
-	// const dateConversionStage = {
-	// 	$addFields: {
-	// 		createdOn: { $dateToString: { date: '$createdOn', format: '%Y-%m-%d' }},
-	// 		updatedOn: { $dateToString: { date: '$updatedOn', format: '%Y-%m-%d' } }
-	// 	}
-	//  };
 	const results = await collection.aggregate([dateConversionStage]).toArray();
 	res.json(results).status(200);
 });
@@ -69,28 +64,32 @@ app.get("/user/:id", async (req, res) => {
 
 
 app.post("/createTask", async (req, res) => {
-	let ts = Date.now();
+	// const timeStamp = Date.now(); // timestamp in milliseconds
+	// const seconds = Math.floor(timeStamp/1000) // timestamp in seconds
+	const bsonTimestamp = new Timestamp();
+	const dateFormat = 'dd-MM-yyyy';
+	const parsedDate = parse(req.body.taskDateTime, dateFormat, new Date());
 	
 	let newDocument = {
-	  taskCategories: req.body.taskCategories,
-	  dateTime: req.body.dateTime,
-	  weekNumber: req.body.weekNumber,
-	  orderNumber: req.body.orderNumber,
-	  taskDesc: req.body.taskDesc,
-	  comments: req.body.comments,
-	  projID: req.body.projId,
-	  userID: req.body.userId,
-	  createdOn: ts,
-	  UpdatedOn: ts,
+		task_category_code: req.body.taskCategoryCode,
+		task_date_time: parsedDate,
+		week_number: req.body.weekNumber,
+		order_name: req.body.orderName,
+		task_desc: req.body.taskDesc,
+		comments: req.body.comments,
+		proj_id: req.body.projId,
+		created_by: req.body.userId,
+		created_on: bsonTimestamp,
+		updated_on: bsonTimestamp
 	};
-	let collection = await db.collection("records");
+	let collection = await db.collection("tasks_t");
 	let result = await collection.insertOne(newDocument);
 	res.send(result).status(204);
 });
 
 app.post("/taskInfo", async (req, res) => {
 	let collection = await db.collection("tasks_t");
-	let query = {  taskCategoryCode: req.body.taskCategory};
+	let query = {  task_category_code: req.body.taskCategoryCode};
 	const query_cond = {
 		$match: query
 	}
