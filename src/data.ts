@@ -15,21 +15,21 @@ export const menu = [
     id: 2,
     title: "lists",
     listItems: [
-      {
-        id: 1,
-        title: "Lab Work",
-        url: "/lab",
-        icon: "user.svg",
-      },
-      {
-        id: 2,
-        title: "Data Curation",
-        url: "/datacuration",
-        icon: "product.svg",
-      },
+      // {
+      //   id: 1,
+      //   title: "Lab Work",
+      //   url: "/lab",
+      //   icon: "user.svg",
+      // },
+      // {
+      //   id: 2,
+      //   title: "Data Curation",
+      //   url: "/datacuration",
+      //   icon: "product.svg",
+      // },
       {
         id: 3,
-        title: "Data Analysis",
+        title: "Task List",
         url: "/analysis",
         icon: "order.svg",
       },
@@ -158,7 +158,40 @@ export const chartBoxConversion = {
     { name: "Sat", ratio: 450 },
   ],
 };
-
+export const originalData = [
+  {
+    "_id": "64fed9160a50ec21b030fcf5",
+    "created_on": "2023-09-11",
+    "proj_id": 1,
+    "proj_name": "PROBIO",
+    "proj_status": 1,
+    "updated_on": "2023-09-11"
+  },
+  {
+    "_id": "64fed9950a50ec21b030fcf6",
+    "created_on": "2023-09-11",
+    "proj_id": 2,
+    "proj_name": "PSFF",
+    "proj_status": 1,
+    "updated_on": "2023-09-11"
+  },
+  {
+    "_id": "64fed9bc0a50ec21b030fcf7",
+    "created_on": "2023-09-11",
+    "proj_id": 3,
+    "proj_name": "iPCM",
+    "proj_status": 1,
+    "updated_on": "2023-09-11"
+  },
+  {
+    "_id": "64fed9dd0a50ec21b030fcf8",
+    "created_on": "2023-09-11",
+    "proj_id": 4,
+    "proj_name": "ALASCCA",
+    "proj_status": 1,
+    "updated_on": "2023-09-11"
+  }
+];
 export const barChartBoxRevenue = {
   title: "Profit Earned",
   color: "#8884d8",

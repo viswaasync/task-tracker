@@ -4,34 +4,47 @@ import 'react-calendar/dist/Calendar.css';
 import React from 'react';
 import { useForm, Controller } from 'react-hook-form';
 import { z } from 'zod';
+import axios from 'axios';
 
 const schema = z.object({
-  name: z.enum(['Johan','Preeti','Markus','Rebecka','Venki','Nawal', 'Sarath', 'Karthick', 'Anu']).optional(),
-  project: z.enum(['Probio', 'CRCR', 'PSFF', 'IPCM']).optional(),
-  category: z.enum(['Lab Work', 'Data Curation', 'Data Analysis']).optional(),
-  createdAt: z.date().optional(),
-  description: z.string().optional(),
+  task_category_code: z.enum(['Lab Work', 'Data Curation', 'Data Analysis', 'Development']).optional(),
+  task_date_time: z.date().optional(),
+  week_number: z.number().min(1).max(54).optional(),
+  order_name: z.number().min(1).optional(),
+  task_desc: z.string().optional(),
   comments: z.string().optional(),
+  proj_name: z.enum(['PROBIO', 'PSFF', 'iPCM', 'ALASCCA']).optional(),
+  first_name: z.enum(['Test']).optional(),
   status: z.enum(['Done', 'In Progress']).optional(),
-  orderNumber: z.number().min(1).optional(),
 });
 
 const Home = () => {
   const { handleSubmit, control, formState: { errors }, setError } = useForm();
 
-  const onSubmit = (data) => {
+  const onSubmit = async (data) => {
     try {
-      data.createdAt = new Date(data.createdAt);
-      data.orderNumber = parseFloat(data.orderNumber);
-      const parsedData = schema.parse(data);
-      console.log(parsedData);
-    } catch (error) {
-      console.error(error);
-      if (error.errors) {
-        error.errors.forEach((err) => {
-          setError(err.path[0], { type: 'manual', message: err.message });
-        });
+      
+      data.week_number = parseFloat(data.week_number);
+      data.order_name = parseFloat(data.order_name);
+
+      const requestData = {
+        taskCategoryCode: data.task_category_code,
+        taskDateTime: data.task_date_time,
+        weekNumber: data.week_number,
+        orderName: data.order_name,
+        taskDesc: data.task_desc,
+        comments: data.comments,
+        projId: data.proj_name, 
+        userId: data.first_name, 
+      };
+      const response = await axios.post('http://localhost:5050/createTask', requestData);
+      if (response.status === 204) {
+        console.log('Task created successfully!');
+      } else {
+        console.error('Failed to create task.');
       }
+    } catch (error) {
+      console.error('Error creating task:', error);
     }
   };
 
@@ -40,48 +53,9 @@ const Home = () => {
       <h1> Create Task</h1>
       <form onSubmit={handleSubmit(onSubmit)}>
       <div className="form-group">
-          <label>Name</label>
-          <Controller
-            name="name"
-            control={control}
-            render={({ field }) => (
-              <select {...field} required>
-                <option value="">Select Name</option>
-                <option value="Karthick">Karthick</option>
-                <option value="Sarath">Sarath</option>
-                <option value="Venki">Venki</option>
-                <option value="Johan">Johan</option>
-                <option value="Anu">Anu</option>
-                <option value="Preeti">Preeti</option>
-                <option value="Nawal">Nawal</option>
-                <option value="Markus">Markus</option>
-                <option value="Rebecka">Rebecka</option>
-              </select>
-            )}
-          />
-          {errors.project && <span className="error-message">{errors.project.message}</span>}
-        </div>
-        <div className="form-group">
-          <label>Project</label>
-          <Controller
-            name="project"
-            control={control}
-            render={({ field }) => (
-              <select {...field} required>
-                <option value="">Select Project Name</option>
-                <option value="Probio">Probio</option>
-                <option value="CRCR">CRCR</option>
-                <option value="PSFF">PSFF</option>
-                <option value="IPCM">IPCM Analysis</option>
-              </select>
-            )}
-          />
-          {errors.project && <span className="error-message">{errors.project.message}</span>}
-        </div>
-        <div className="form-group">
           <label>Category</label>
           <Controller
-            name="category"
+            name="task_category_code"
             control={control}
             render={({ field }) => (
               <select {...field} required>
@@ -89,32 +63,55 @@ const Home = () => {
                 <option value="Lab Work">Lab Work</option>
                 <option value="Data Curation">Data Curation</option>
                 <option value="Data Analysis">Data Analysis</option>
+                <option value="Development">Development</option>
               </select>
             )}
           />
-          {errors.category && <span className="error-message">{errors.category.message}</span>}
+          {errors.task_category_code && <span className="error-message">{errors.task_category_code.message}</span>}
         </div>
         <div className="form-group">
-          <label>Created At</label>
+          <label>Date</label>
           <Controller
-            name="createdAt"
+            name="task_date_time"
             control={control}
             render={({ field }) => (
               <input type="date" {...field} />
             )}
           />
-          {errors.createdAt && <span className="error-message">{errors.createdAt.message}</span>}
+          {errors.task_date_time && <span className="error-message">{errors.task_date_time.message}</span>}
+        </div>
+        <div className="form-group">
+          <label>Week Number</label>
+          <Controller
+            name="week_number"
+            control={control}
+            render={({ field }) => (
+              <input type="number" {...field} />
+            )}
+          />
+          {errors.week_number && <span className="error-message">{errors.week_number.message}</span>}
+        </div>
+        <div className="form-group">
+          <label>Order Number</label>
+          <Controller
+            name="order_name"
+            control={control}
+            render={({ field }) => (
+              <input type="number" {...field} />
+            )}
+          />
+          {errors.order_name && <span className="error-message">{errors.order_name.message}</span>}
         </div>
         <div className="form-group">
           <label>Description</label>
           <Controller
-            name="Task Description"
+            name="task_desc"
             control={control}
             render={({ field }) => (
               <textarea {...field} />
             )}
           />
-          {errors.comments && <span className="error-message">{errors.comments.message}</span>}
+          {errors.task_desc && <span className="error-message">{errors.task_desc.message}</span>}
         </div>
         <div className="form-group">
           <label>Comments</label>
@@ -125,9 +122,48 @@ const Home = () => {
               <textarea {...field} />
             )}
           />
-          {errors.comments && <span>{errors.comments.message}</span>}
+          {errors.comments && <span className="error-message">{errors.comments.message}</span>}
         </div>
         <div className="form-group">
+          <label>Project</label>
+          <Controller
+            name="proj_name"
+            control={control}
+            render={({ field }) => (
+              <select {...field} required>
+                <option value="">Select Project Name</option>
+                <option value="PROBIO">PROBIO</option>
+                <option value="PSFF">PSFF</option>
+                <option value="iPCM">iPCM</option>
+                <option value="ALASCCA">ALASCCA</option>
+              </select>
+            )}
+          />
+          {errors.proj_name && <span className="error-message">{errors.proj_name.message}</span>}
+        </div>
+        <div className="form-group">
+          <label>Name</label>
+          <Controller
+            name="first_name"
+            control={control}
+            render={({ field }) => (
+              <select {...field} required>
+                <option value="">Select Name</option>
+                <option value="Test">Test</option>
+                {/* <option value="2">Sarath</option>
+                <option value="3">Venki</option>
+                <option value="4">Johan</option>
+                <option value="5">Anu</option>
+                <option value="6">Preeti</option>
+                <option value="7">Nawal</option>
+                <option value="8">Markus</option>
+                <option value="9">Rebecka</option> */}
+              </select>
+            )}
+          />
+          {errors.first_name && <span className="error-message">{errors.first_name.message}</span>}
+        </div>
+        {/* <div className="form-group">
           <label>Status</label>
           <Controller
             name="status"
@@ -141,18 +177,8 @@ const Home = () => {
             )}
           />
           {errors.status && <span className="error-message">{errors.status.message}</span>}
-        </div>
-        <div className="form-group">
-          <label>Order Number</label>
-          <Controller
-            name="orderNumber"
-            control={control}
-            render={({ field }) => (
-              <input type="number" {...field} />
-            )}
-          />
-          {errors.orderNumber && <span className="error-message">{errors.orderNumber.message}</span>}
-        </div>
+        </div> */}
+
         <button type="submit" className="submit-button">Submit</button>
       </form>
     </div>
