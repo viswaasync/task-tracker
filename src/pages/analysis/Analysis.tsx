@@ -11,13 +11,13 @@ const columns: GridColDef[] = [
   { field: "order_name", headerName: "Order Name", width: 150 },
   { field: "task_desc", headerName: "Task Description", width: 200 },
   { field: "comments", headerName: "Comments", width: 150 },
-  { field: "proj_id", headerName: "Project ID", width: 150 },
-  { field: "created_by", headerName: "Created By", width: 150 },
+  { field: "proj_id", headerName: "Project ID", width: 100 },
+  { field: "created_by", headerName: "Created By", width: 100 },
   { field: "created_on", headerName: "Created On", width: 150 },
   { field: "task_date_time", headerName: "Task Date Time", width: 200 },
 ];
 
-const apiUrl = "http://localhost:5050/tasklist";
+const apiUrl = "http://localhost:5050/analysis";
 
 const Analysis = () => {
   const [open, setOpen] = useState(false);
@@ -48,7 +48,7 @@ const Analysis = () => {
   return (
     <div className="analysis">
       <div className="info">
-        <h1>Task List</h1>
+        <h1>Data Analysis</h1>
         <button onClick={() => setOpen(true)}>Add New Task</button>
       </div>
       {isLoading ? (

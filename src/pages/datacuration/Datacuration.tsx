@@ -1,88 +1,64 @@
-import { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "./datacuration.scss";
 import DataTable from "../../components/dataTable/DataTable";
 import Add from "../../components/add/Add";
 import { GridColDef } from "@mui/x-data-grid";
-import { products } from "../../data";
-
 
 const columns: GridColDef[] = [
-  { field: "id", headerName: "ID", width: 90 },
-  {
-    field: "createdAt",
-    headerName: "Created At",
-    width: 100,
-    type: "string",
-  },
-  {
-    field: "name",
-    type: "string",
-    headerName: "User Name",
-    width: 150,
-  },
-  {
-    field: "Category",
-    type: "string",
-    headerName: "Task Category",
-    width: 150,
-  },
-  {
-    field: "order",
-    type: "string",
-    headerName: "Order Number",
-    width: 100,
-  },
-  {
-    field: "description",
-    type: "string",
-    headerName: "Task Description",
-    width: 150,
-  },
- 
-  {
-    field: "project",
-    headerName: "Comments",
-    type: "string",
-    width: 200,
-  },
-
-  {
-    field: "status",
-    headerName: "Status",
-    width: 150,
-    type: "boolean",
-  },
+  { field: "_id", headerName: "ID", width: 150 },
+  { field: "task_category_code", headerName: "Task Category", width: 150 },
+  { field: "week_number", headerName: "Week Number", width: 150 },
+  { field: "order_name", headerName: "Order Name", width: 150 },
+  { field: "task_desc", headerName: "Task Description", width: 200 },
+  { field: "comments", headerName: "Comments", width: 150 },
+  { field: "proj_id", headerName: "Project ID", width: 150 },
+  { field: "created_by", headerName: "Created By", width: 150 },
+  { field: "created_on", headerName: "Created On", width: 150 },
+  { field: "task_date_time", headerName: "Task Date Time", width: 200 },
 ];
-const Datacuration = () => {
+
+const apiUrl = "http://localhost:5050/curation";
+
+const Analysis = () => {
   const [open, setOpen] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
+  const [data, setData] = useState([]);
 
-  // TEST THE API
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await fetch(apiUrl);
+        if (!response.ok) {
+          throw new Error("Network response was not ok");
+        }
+        const jsonData = await response.json();
+        const dataWithIds = jsonData.map((row, index) => ({ ...row, id: index }));
 
-  // const { isLoading, data } = useQuery({
-  //   queryKey: ["allproducts"],
-  //   queryFn: () =>
-  //     fetch("http://localhost:8800/api/products").then(
-  //       (res) => res.json()
-  //     ),
-  // });
+        setData(dataWithIds);
+        setIsLoading(false);
+      } catch (error) {
+        console.error("Error fetching data:", error);
+        setIsLoading(false);
+      }
+    };
+
+    fetchData();
+  }, []);
 
   return (
-    <div className="datacuration">
+    <div className="analysis">
       <div className="info">
-        <h1>Data Curation </h1>
-        <button onClick={() => setOpen(true)}>Add New Products</button>
+        <h1>Data Curation</h1>
+        <button onClick={() => setOpen(true)}>Add New Task</button>
       </div>
-      <DataTable slug="datacuration" columns={columns} rows={products} />
-      {/* TEST THE API */}
-
-      {/* {isLoading ? (
+      {isLoading ? (
         "Loading..."
       ) : (
-        <DataTable slug="datacuration" columns={columns} rows={data} />
-      )} */}
+        <DataTable slug="analysis" columns={columns} rows={data} />
+      )}
       {open && <Add slug="task" columns={columns} setOpen={setOpen} />}
     </div>
   );
 };
 
-export default Datacuration;
+export default Analysis;

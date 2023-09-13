@@ -86,7 +86,68 @@ app.post("/createTask", async (req, res) => {
 	let result = await collection.insertOne(newDocument);
 	res.send(result).status(204);
 });
-
+app.get("/lab", async (req, res) => {
+	try {
+	  let collection = await db.collection("tasks_t");
+	  const results = await collection.aggregate([
+		dateConversionStage,
+		{
+		  $match: { task_category_code: "Lab Work" }
+		}
+	  ]).toArray();
+	  res.json(results).status(200);
+	} catch (error) {
+	  console.error('Error fetching and filtering data:', error);
+	  res.status(500).send('Internal Server Error');
+	}
+  });
+  app.get("/analysis", async (req, res) => {
+	try {
+	  let collection = await db.collection("tasks_t");
+	  const results = await collection.aggregate([
+		dateConversionStage,
+		{
+		  $match: { task_category_code: "Data Analysis" }
+		}
+	  ]).toArray();
+	  res.json(results).status(200);
+	} catch (error) {
+	  console.error('Error fetching and filtering data:', error);
+	  res.status(500).send('Internal Server Error');
+	}
+  });
+  
+  app.get("/curation", async (req, res) => {
+	try {
+	  let collection = await db.collection("tasks_t");
+	  const results = await collection.aggregate([
+		dateConversionStage,
+		{
+		  $match: { task_category_code: "Data Curation" }
+		}
+	  ]).toArray();
+	  res.json(results).status(200);
+	} catch (error) {
+	  console.error('Error fetching and filtering data:', error);
+	  res.status(500).send('Internal Server Error');
+	}
+  });
+  app.get("/development", async (req, res) => {
+	try {
+	  let collection = await db.collection("tasks_t");
+	  const results = await collection.aggregate([
+		dateConversionStage,
+		{
+		  $match: { task_category_code: "Development" }
+		}
+	  ]).toArray();
+	  res.json(results).status(200);
+	} catch (error) {
+	  console.error('Error fetching and filtering data:', error);
+	  res.status(500).send('Internal Server Error');
+	}
+  });
+  
 app.post("/taskInfo", async (req, res) => {
 	let collection = await db.collection("tasks_t");
 	let query = {  task_category_code: req.body.taskCategoryCode};

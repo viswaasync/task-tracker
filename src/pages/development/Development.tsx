@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import "./lab.scss";
+import "./development.scss";
 import DataTable from "../../components/dataTable/DataTable";
 import Add from "../../components/add/Add";
 import { GridColDef } from "@mui/x-data-grid";
@@ -17,7 +17,7 @@ const columns: GridColDef[] = [
   { field: "task_date_time", headerName: "Task Date Time", width: 200 },
 ];
 
-const apiUrl = "http://localhost:5050/lab";
+const apiUrl = "http://localhost:5050/development";
 
 const Analysis = () => {
   const [open, setOpen] = useState(false);
@@ -48,7 +48,7 @@ const Analysis = () => {
   return (
     <div className="analysis">
       <div className="info">
-        <h1>Lab Work</h1>
+        <h1>Development</h1>
         <button onClick={() => setOpen(true)}>Add New Task</button>
       </div>
       {isLoading ? (

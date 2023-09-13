@@ -3,6 +3,7 @@ import { createBrowserRouter, RouterProvider, Outlet } from "react-router-dom";
 import Lab from "./pages/Lab/Lab";
 import Datacuration from "./pages/datacuration/Datacuration";
 import Analysis from "./pages/analysis/Analysis";
+import Development from "./pages/development/Development"
 import Navbar from "./components/navbar/Navbar";
 import Footer from "./components/footer/Footer";
 import Menu from "./components/menu/Menu";
@@ -59,6 +60,10 @@ function App() {
         {
           path: "/analysis",
           element: <Analysis />,
+        },
+        {
+          path: "/development",
+          element: <Development/>,
         },
         {
           path: "/users/:id",
