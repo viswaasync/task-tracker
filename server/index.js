@@ -67,12 +67,12 @@ app.post("/createTask", async (req, res) => {
 	// const timeStamp = Date.now(); // timestamp in milliseconds
 	// const seconds = Math.floor(timeStamp/1000) // timestamp in seconds
 	const bsonTimestamp = new Timestamp();
-	const dateFormat = 'dd-MM-yyyy';
-	const parsedDate = parse(req.body.taskDateTime, dateFormat, new Date());
+	// const dateFormat = 'dd-MM-yyyy';
+	// const parsedDate = parse(req.body.taskDateTime, dateFormat, new Date());
 	
 	let newDocument = {
 		task_category_code: req.body.taskCategoryCode,
-		task_date_time: parsedDate,
+		task_date_time: req.body.taskDateTime,
 		week_number: req.body.weekNumber,
 		order_name: req.body.orderName,
 		task_desc: req.body.taskDesc,
