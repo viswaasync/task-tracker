@@ -1,28 +1,32 @@
 @import "../../styles/responsive.scss";
 
 .navbar {
-  width: 100%;
-  padding: 20px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
+	width: 100%;
+	padding: 10px;
+	// display: flex;
+	// align-items: center;
+	// justify-content: space-between;
+	background-color: #4B94C0;
+	color: #ffffff;
+	font-size: 14px;
 
-  .logo {
-    display: flex;
-    align-items: center;
-    font-weight: bold;
-    gap: 10px;
-  }
-  .icons {
-    display: flex;
-    align-items: center;
-    gap: 20px;
+	.logo {
+		display: flex;
+		align-items: center;
+		font-weight: bold;
+		gap: 10px;
+		font-size: 30px;
+	}
+	.icons {
+		display: flex;
+		align-items: center;
+		gap: 20px;
 
-    .icon{
-      @include sm{
-        display: none;
-      }
-    }
+	.icon{
+		@include sm{
+			display: none;
+		}
+	}
 
     .notification {
       position: relative;

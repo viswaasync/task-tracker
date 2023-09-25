@@ -2,21 +2,32 @@
 @import "../../styles/responsive.scss";
 
 .menu {
+  width: 165px;
+
   .item {
     display: flex;
     flex-direction: column;
     gap: 10px;
-    margin-bottom: 20px;
+    margin-bottom: 10px;
+    border-bottom: 1px solid #4b545c;
+    padding-bottom: 10px;
 
     .title {
-      font-size: 12px;
-      font-weight: 200;
-      color: $soft-color;
-      text-transform: uppercase;
+      font-weight: 400;
+      color: #c2c7d0;
+      text-transform: capitalize;
+      font-size: 1.1rem;
+      padding-left: 5px;
+      margin-bottom: 5px;
 
       @include lg{
         display: none;
       }
+    }
+
+    .nav-img {
+      font-size: 20px;
+      color: #ffffff;
     }
 
     .listItem {
@@ -28,9 +39,12 @@
 
       &:hover {
         background-color: $soft-bg;
+        color: #ffffff;
       }
 
       .listItemTitle{
+        font-size: 1rem;
+
         @include lg{
           display: none;
         }

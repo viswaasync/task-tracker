@@ -8,9 +8,6 @@ const Navbar = () => {
         <span>Task Tracker</span>
       </div>
       <div className="icons">
-        
-        <a href="/"><img src="/home.svg" alt="" className="icon" /></a>
-        {/* <img src="/expand.svg" alt="" className="icon" /> */}
       </div>
     </div>
   );

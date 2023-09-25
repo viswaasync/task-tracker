@@ -7,6 +7,8 @@ import "./dataTable.scss";
 import { Link } from "react-router-dom";
 // import { useMutation, useQueryClient } from "@tanstack/react-query";
 
+import { BiEdit, BiTrash } from "react-icons/bi";
+
 type Props = {
   columns: GridColDef[];
   rows: object[];
@@ -42,10 +44,10 @@ const DataTable = (props: Props) => {
       return (
         <div className="action">
           <Link to={`/${props.slug}/${params.row.id}`}>
-            <img src="/view.svg" alt="" />
+            <BiEdit className="action-icon"/>
           </Link>
           <div className="delete" onClick={() => handleDelete(params.row.id)}>
-            <img src="/delete.svg" alt="" />
+            <BiTrash className="action-icon"/>
           </div>
         </div>
       );
@@ -72,7 +74,7 @@ const DataTable = (props: Props) => {
             quickFilterProps: { debounceMs: 500 },
           },
         }}
-        pageSizeOptions={[5]}
+        pageSizeOptions={[10]}
         checkboxSelection
         disableRowSelectionOnClick
         disableColumnFilter
